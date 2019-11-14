@@ -14,18 +14,23 @@ $(() => {
             <li>number_of_bathrooms: ${property.number_of_bathrooms}</li>
             <li>parking_spaces: ${property.parking_spaces}</li>
           </ul>
+          <footer class="property-listing__footer">
+          <div class="property-listing__rating">${Math.round(property.average_rating * 100) / 100}/5 stars</div>
+          <div class="property-listing__price">$${property.cost_per_night/100.0}/night</div>
+          </footer>
           ${isReservation ? 
             `<p>${moment(property.start_date).format('ll')} - ${moment(property.end_date).format('ll')}</p>` 
-            : ``}
-          <footer class="property-listing__footer">
-            <div class="property-listing__rating">${Math.round(property.average_rating * 100) / 100}/5 stars</div>
-            <div class="property-listing__price">$${property.cost_per_night/100.0}/night</div>
-          </footer>
+            : `<button data-id="${property.id}" class="reserve">Make a Reservation</button>`}
         </section>
       </article>
     `
   }
 
   window.propertyListing.createListing = createListing;
+
+  $('main').on('click', '.reserve', function() {
+    views_manager.show('reservations', $(this).data('id'));
+    return false;
+  });
 
 });
